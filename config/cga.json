@@ -1,0 +1,22 @@
+{
+  "deploy_dir": "deploy",
+  "template_dir": "templates",
+  "storage_path": "/tmp/lipyeow_ctx",
+  "tgt_db_name": "lipyeow_ctx",
+  "notebooks": [
+    {
+      "type": "py",
+      "desc": "load sample data into bronze tables",
+      "id": "bronze_sample" 
+    },  
+    {
+      "type": "sql",
+      "dlt": true,
+      "desc": "pipeline to build silver & bronze edge tables",
+      "id": "dlt_edges",
+      "data_sources": [ "okta", "aad" ],
+      "gold_agg_buckets": ["DAY"]
+    }
+  ] 
+}
+

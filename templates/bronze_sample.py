@@ -1,0 +1,93 @@
+# Databricks notebook source
+# MAGIC %md 
+# MAGIC # Notebook for setting up sample bronze table
+# MAGIC 
+# MAGIC * limited to Azure AD and Okta data for now
+
+# COMMAND ----------
+
+cfg={
+  "storage_path": "{{storage_path}}",
+  "db_name": "{{tgt_db_name}}",
+  "table_list": [ 
+                  {
+                     "name": "aad_bronze",
+                     "ts_path": "createdDateTime",
+                     "files": ["./InteractiveSignIns_2022-07-19_2022-07-20-anon.json.gz", "./NonInteractiveSignIns_2022-07-20_2022-07-21-anon.json.gz"]
+                  }, 
+                  {
+                    "name": "okta_bronze",
+                    "ts_path": "published",
+                    "files": ["./okta-anon.json.gz"]
+                  }
+               ]
+}
+
+def getParam(parm):
+  return cfg.get(parm)
+
+sql_list = [ f"""
+CREATE SCHEMA IF NOT EXISTS {getParam('db_name')} LOCATION '{getParam('storage_path')}'
+"""]
+
+for t in getParam("table_list"):
+  table_name = getParam('db_name') + "." + t["name"]
+  sql_list.append(
+            f"""
+CREATE TABLE IF NOT EXISTS {table_name} (
+  ingest_ts timestamp, 
+  event_ts timestamp,
+  event_date date,
+  raw string
+)
+USING DELTA
+PARTITIONED BY (event_date)
+""")
+  sql_list.append(f"TRUNCATE TABLE {table_name}")
+
+for sql_str in sql_list:
+  print(sql_str)
+  spark.sql(sql_str)
+
+
+# COMMAND ----------
+
+import json
+import gzip
+import datetime
+import dateutil
+from pyspark.sql import Row
+
+def load_jsonfiles(full_table_name, jsonfiles, ts_path):
+  rec_cnt = 0
+  for jsonfile in jsonfiles:
+    with gzip.open(jsonfile, "r") as fp:
+      data_str = fp.read()
+      data = json.loads(data_str)
+  
+    rec_cnt += len(data)
+    ingest_ts = datetime.datetime.now(datetime.timezone.utc)
+
+    df = (
+          sc.parallelize([Row(raw=json.dumps(x)) for x in data]).toDF()
+          .selectExpr(f"'{ingest_ts.isoformat()}'::timestamp AS ingest_ts",
+                  f"date_trunc('DAY', raw:{ts_path}::timestamp)::date AS event_date",
+                  f"raw:{ts_path}::timestamp AS event_ts",
+                  "raw AS raw")
+        )
+    df.write.mode("append").saveAsTable(full_table_name)
+  return rec_cnt
+
+for t in getParam("table_list"):
+  full_table_name = getParam('db_name') + "." + t["name"]
+  load_jsonfiles(full_table_name, t["files"], t["ts_path"])
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC 
+# MAGIC select * from {{tgt_db_name}}.okta_bronze
+
+# COMMAND ----------
+
+
