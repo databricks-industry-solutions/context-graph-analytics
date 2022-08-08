@@ -10,8 +10,9 @@ ___
 
 ___
 
+Reference Architecture
 
-IMAGE TO REFERENCE ARCHITECTURE
+<img src="https://github.com/lipyeowlim/public/raw/main/img/context-graph/Context_Graph_Architecture.png" width="600px">
 
 ___
 
