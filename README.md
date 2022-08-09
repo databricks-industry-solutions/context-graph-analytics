@@ -41,7 +41,7 @@ This solution accelerator:
 * provides a notebook that demonstrates how Entity resolution packages can be used to produce `same_as` edges and how these `same_as` edges can be used in the graph analytics to resolve and investigate different entities even though the entities are represented differently in different data sets;
 * provides a notebook that demonstrates how graph navigation can be used in an investigation; 
 * provides a demo UI that demonstrate how the graph traversals can be used in an investigation workflow for analysts with no programming experience. 
-* provides ... tbd
+* ... tbd ... more to come
 
 ___
 ## Quickstart Guide
@@ -54,9 +54,9 @@ If you just want to try out the solution accelerator in a Databricks workspace w
 4. Run the `bronze_sample.py` notebook to load the sample bronze tables
 5. Setup the DLT pipeline job for the edge extraction & aggregation pipelines using the `dlt_edges.sql` notebook.
 6. Run the DLT pipeline job.
-7. Open up the `investigation.py` notebook and follow the steps to run it.
+7. Open up the `analytics_02_investigation.py` notebook and follow the steps to run it.
 
-If you want to customize or further build on the solution accelerator, follow the following development and deployment guide.
+If you want to customize or further build on the solution accelerator, follow the development and deployment guide in the next section.
 
 ## Development & Deployment Guide
 
@@ -97,11 +97,17 @@ generated notebooks as code using standard git processes.
 
 ### Solution accelerator upgrade workflow
 
-Use these steps when you have not made substantial changes to the source code or the template files AND the source repo context-graph-analytics has released a new version AND you want to upgrade to that new version.
+There is a chance that after you have deployed the solution accelerator, a new
+version of the solution accelerator is released. The following steps walk you
+through the upgrade process assuming you have not made substantial changes to
+the source code or the template files AND you do want to upgrade to that new
+version.
 
 1. Fetch the version of context-graph-analytics you want using the appropriate git commands ([Syncing a fork - GitHub Docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) ). This will update my-context-graph repo (main branch) with the latest changes.
 1. Rebase/merge to the deploy_v1 branch or create a new branch as needed.
 1. Repeat the above deployment steps to generate notebooks and deploy to Databricks workspace
+
+___
 
 &copy; 2022 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below.
 
@@ -109,4 +115,5 @@ Use these steps when you have not made substantial changes to the source code or
 |----------------------------------------|-------------------------|------------|-----------------------------------------------------|
 | jinja2 | Templating library | BSD-3 | https://github.com/pallets/jinja/ |
 | click  | CLI framework  | BSD-3 | https://github.com/pallets/click |
+| jsonschema  | json validation  | MIT | https://github.com/python-jsonschema/jsonschema |
 

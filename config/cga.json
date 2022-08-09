@@ -24,6 +24,11 @@
     },
     {
       "type": "py",
+      "id": "analytics_01_impact",
+      "desc": "impact analysis"
+    },
+    {
+      "type": "py",
       "id": "analytics_02_investigation",
       "desc": "create graph visualization during investigation process"
     }  
