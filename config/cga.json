@@ -6,6 +6,11 @@
   "notebooks": [
     {
       "type": "py",
+      "desc": "sample collector to poll okta data into bronze table",
+      "id": "okta_collector" 
+    },  
+    {
+      "type": "py",
       "desc": "load sample data into bronze tables",
       "id": "bronze_sample" 
     },  

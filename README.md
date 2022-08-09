@@ -25,28 +25,28 @@ Personas: SOC analyts, Incident Responders, Threat Hunters
 
 ___
 
-## Technical Overview
-
-This solution accelerator:
-* assumes that the raw data from security appliances (EDR, IAM, Network etc.) is already being collected or exported to bronze tables.
-* provides sample DLT pipelines to extract a property graph model in the form of edges or triples into silver tables and further aggregates the silver tables via different time buckets into gold tables.
-* provides a notebook to create the unifying set of edge/triple views that are used to query all the edges.
-* provides a notebook that demonstrates how Entity resolution packages can be used to produce `same_as` edges and how these `same_as` edges can be used in the graph analytics to resolve and investigate different entities even though the entities are represented differently in different data sets.
-* provides a notebook that demonstrates how graph navigation can be used in an investigation, 
-* provides a demo UI that demonstrate how the graph traversals can be used in an investigation workflow for analysts with no programming experience. 
-* provides ... tbd
-
-___
-
 ## Reference Architecture
 
 <img src="https://github.com/lipyeowlim/public/raw/main/img/context-graph/Context_Graph_Architecture.png" width="600px">
 
 ___
 
+## Technical Overview
+
+This solution accelerator:
+* assumes that the raw data from security appliances (EDR, IAM, Network etc.) is already being collected or exported to bronze tables;
+* provides a sample collector notebook for polling okta data via okta's REST API for reference, but collection logic is not the focus of this solution accelerator;
+* provides sample DLT pipelines to extract a property graph model in the form of edges or triples into silver tables and further aggregates the silver tables via different time buckets into gold tables;
+* provides a notebook to create the unifying set of edge/triple views that are used to query all the edges;
+* provides a notebook that demonstrates how Entity resolution packages can be used to produce `same_as` edges and how these `same_as` edges can be used in the graph analytics to resolve and investigate different entities even though the entities are represented differently in different data sets;
+* provides a notebook that demonstrates how graph navigation can be used in an investigation; 
+* provides a demo UI that demonstrate how the graph traversals can be used in an investigation workflow for analysts with no programming experience. 
+* provides ... tbd
+
+___
 ## Quickstart Guide
 
-If you just want to try out the solution accelerator without any additional customization in terms of target database names etc. in a Databricks workspace:
+If you just want to try out the solution accelerator in a Databricks workspace without any additional customization in terms of target database names etc.:
 
 1. Ensure you have git integration setup in the workspace 
 2. Clone this repo to the workspace
@@ -56,9 +56,57 @@ If you just want to try out the solution accelerator without any additional cust
 6. Run the DLT pipeline job.
 7. Open up the `investigation.py` notebook and follow the steps to run it.
 
+If you want to customize or further build on the solution accelerator, follow the following development and deployment guide.
+
+## Development & Deployment Guide
+
+The general philosophy is the manage all configurations and deployed notebooks
+as code using git processes for version control. It is crucial that the
+actual deployed notebooks are versioned controlled to facilitate operational
+debugging and troubleshooting.
+
+### Deployment
+
+1. Fork this repo in your organization’s github/gitlab (henceforth
+my-context-graph repo) & set the upstream to the original
+context-graph-analytics repo ([Fork a repo - GitHub Docs](https://docs.github.com/en/get-started/quickstart/fork-a-repo) ). This
+ensures that any configurations and generated files will be in your
+organization’s git environment along with the proper access controls. The
+my-context-graph repo will be a private repo in your organization.
+1. Clone the my-context-graph repo to your laptop or development environment.
+1. Create a deployment branch `deploy_v1`.
+1. Edit the config files (details TBD) to setup the data sources for the pipeline
+1. Run `python3 solacc.py generate` to generate the notebooks (the generated files will reside in the deploy folder.
+1. Commit the config files and generated notebooks to the `deploy_v1` branch and push to the my-context-graph repo
+1. [The following steps in Databricks can be automated via CLI/API.] Create the git repo integration to my-context-graph repo in your Databricks workspace
+1. Navigate to the my-context-graph repo in your Databricks workspace and set the branch to `deploy_v1`
+1. Setup the DLT pipeline jobs using generated notebooks in the deploy folder of the my-context-graph repo (`deploy_v1` branch) – This step can be automated via CLI in the future.
+1. Create any needed views
+
+### Redeployment after a configuration change
+
+Examples of configuration change include adding/removing a data source or
+tweaking the notebook logic. Note that you will manage the config files and
+generated notebooks as code using standard git processes.
+
+1. Edit the config files or template files or source code to incorporate the change. (You are free to use a separate branch if you like)
+1. Run `python3 solacc.py generate` to generate the notebooks (the generated files will reside in the deploy folder
+1. Commit the config files and generated notebooks to the deploy_v1 branch (or you can use a separate branch) and push to the my-context-graph repo
+1. [The following steps in Databricks can be automated via CLI/API.]  Navigate to the my-sirens repo in each of your Databricks workspace and “pull” the branch deploy_v1 for the latest changes
+1. Restart the DLT pipeline jobs if you are using DLT pipeline jobs in continuous processing mode, so that the latest notebooks will be picked up. Batch or scheduled jobs should pick up the latest notebooks automatically on the next scheduled run.
+
+### Solution accelerator upgrade workflow
+
+Use these steps when you have not made substantial changes to the source code or the template files AND the source repo context-graph-analytics has released a new version AND you want to upgrade to that new version.
+
+1. Fetch the version of context-graph-analytics you want using the appropriate git commands ([Syncing a fork - GitHub Docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) ). This will update my-context-graph repo (main branch) with the latest changes.
+1. Rebase/merge to the deploy_v1 branch or create a new branch as needed.
+1. Repeat the above deployment steps to generate notebooks and deploy to Databricks workspace
+
 &copy; 2022 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below.
 
 | library                                | description             | license    | source                                              |
 |----------------------------------------|-------------------------|------------|-----------------------------------------------------|
-| PyYAML                                 | Reading Yaml files      | MIT        | https://github.com/yaml/pyyaml                      |
+| jinja2 | Templating library | BSD-3 | https://github.com/pallets/jinja/ |
+| click  | CLI framework  | BSD-3 | https://github.com/pallets/click |
 
