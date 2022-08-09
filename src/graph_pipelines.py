@@ -1,4 +1,3 @@
-from . import utils
 from jinja2 import Template
 import json
 import os
@@ -52,7 +51,7 @@ def gen_simple_notebook(nb_spec):
 
   return nb_str
 
-def gen_dlt_notebook(nb_spec):
+def gen_dlt_edges_notebook(nb_spec):
 
   cmd_list = []
   for src in nb_spec["data_sources"]:
@@ -83,18 +82,6 @@ def gen_dlt_notebook(nb_spec):
   out_file = write_notebook(nb_spec, nb_str)
 
   return out_file
-
-def gen_normalizer_sql(bronze_table, mapping, silver_table, template_str):
-  select_list = []
-  for (tgt, src) in mapping.items():
-    select_list.append(f"\n  {src} AS {tgt}")
-  
-  t = Template(template_str)
-  sql_str = t.render( dlt_silver_table = silver_table,
-                    field_mappings   = ",".join(select_list),
-                    src_bronze_table = bronze_table
-                    )
-  return sql_str
 
 if __name__ == "__main__":
   pass

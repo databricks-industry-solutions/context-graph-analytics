@@ -1,5 +1,4 @@
 from src import graph_pipelines
-from src import utils
 import json
 import os
 import sys
@@ -30,8 +29,9 @@ def generate():
     nb_spec.update(common)
     print(f"Generating notebook for ... ", end="")
     print(nb_spec["id"])
-    if "dlt" in nb_spec and nb_spec["dlt"] == True: 
-      graph_pipelines.gen_dlt_notebook(nb_spec)
+    if nb_spec["id"] == "dlt_edges":
+      assert  "dlt" in nb_spec and nb_spec["dlt"] == True 
+      graph_pipelines.gen_dlt_edges_notebook(nb_spec)
     else:
       graph_pipelines.gen_simple_notebook(nb_spec)
     

@@ -60,7 +60,7 @@ If you want to customize or further build on the solution accelerator, follow th
 
 ## Development & Deployment Guide
 
-The general philosophy is the manage all configurations and deployed notebooks
+The general philosophy is to manage all configurations and deployed notebooks
 as code using git processes for version control. It is crucial that the
 actual deployed notebooks are versioned controlled to facilitate operational
 debugging and troubleshooting.
