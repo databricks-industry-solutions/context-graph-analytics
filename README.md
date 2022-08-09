@@ -27,11 +27,14 @@ ___
 
 ## Technical Overview
 
-* Assume that raw data from security appliances (EDR, IAM, Network etc.) is being collected or exported to bronze tables.
-* This solution accelerator provides the sample DLT pipelines to extract a property graph model in the form of edges or triples into silver tables and further aggregates the silver tables via different time buckets into gold tables.
-* Entity resolution packages can be used to produce `same_as` edges that can be used in the graph analytics to incorporate entity resolution information.
-* A unifying set of edge/triple views are used to query all the edges.
-* A demo UI is also provided to demonstrate how the graph traversals can be used in an investigation workflow. 
+This solution accelerator:
+* assumes that the raw data from security appliances (EDR, IAM, Network etc.) is already being collected or exported to bronze tables.
+* provides sample DLT pipelines to extract a property graph model in the form of edges or triples into silver tables and further aggregates the silver tables via different time buckets into gold tables.
+* provides a notebook to create the unifying set of edge/triple views that are used to query all the edges.
+* provides a notebook that demonstrates how Entity resolution packages can be used to produce `same_as` edges and how these `same_as` edges can be used in the graph analytics to resolve and investigate different entities even though the entities are represented differently in different data sets.
+* provides a notebook that demonstrates how graph navigation can be used in an investigation, 
+* provides a demo UI that demonstrate how the graph traversals can be used in an investigation workflow for analysts with no programming experience. 
+* provides ... tbd
 
 ___
 
@@ -43,7 +46,15 @@ ___
 
 ## Quickstart Guide
 
+If you just want to try out the solution accelerator without any additional customization in terms of target database names etc. in a Databricks workspace:
 
+1. Ensure you have git integration setup in the workspace 
+2. Clone this repo to the workspace
+3. Switch to the `staging_latest` branch. The deploy folder will contain a generic version of the generated notebooks.
+4. Run the `bronze_sample.py` notebook to load the sample bronze tables
+5. Setup the DLT pipeline job for the edge extraction & aggregation pipelines using the `dlt_edges.sql` notebook.
+6. Run the DLT pipeline job.
+7. Open up the `investigation.py` notebook and follow the steps to run it.
 
 &copy; 2022 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below.
 
