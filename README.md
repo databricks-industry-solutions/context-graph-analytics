@@ -54,7 +54,8 @@ If you just want to try out the solution accelerator in a Databricks workspace w
 4. Run the `bronze_sample.py` notebook to load the sample bronze tables
 5. Setup the DLT pipeline job for the edge extraction & aggregation pipelines using the `dlt_edges.sql` notebook.
 6. Run the DLT pipeline job.
-7. Open up the `analytics_02_investigation.py` notebook and follow the steps to run it.
+7. Run the `create_views.py` notebook.
+7. Open up the `analytics_01_impact.py` or the `analytics_02_investigation.py` notebook and follow the steps to run it.
 
 If you want to customize or further build on the solution accelerator, follow the development and deployment guide in the next section.
 
