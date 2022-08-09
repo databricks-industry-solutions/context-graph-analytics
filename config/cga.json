@@ -6,22 +6,27 @@
   "notebooks": [
     {
       "type": "py",
-      "desc": "sample collector to poll okta data into bronze table",
-      "id": "okta_collector" 
+      "id": "okta_collector",
+      "desc": "sample collector to poll okta data into bronze table"
     },  
     {
       "type": "py",
-      "desc": "load sample data into bronze tables",
-      "id": "bronze_sample" 
+      "id": "bronze_sample",
+      "desc": "load sample data into bronze tables"
     },  
     {
       "type": "sql",
+      "id": "dlt_edges",
       "dlt": true,
       "desc": "pipeline to build silver & bronze edge tables",
-      "id": "dlt_edges",
       "data_sources": [ "okta", "aad" ],
       "gold_agg_buckets": ["DAY"]
-    }
+    },
+    {
+      "type": "py",
+      "id": "analytics_02_investigation",
+      "desc": "create graph visualization during investigation process"
+    }  
   ] 
 }
 
