@@ -30,7 +30,7 @@ def get_template_file_path(nb_spec):
 
 def get_notebook_file_path(nb_spec):
     out_dir = f"{nb_spec['deploy_dir']}"
-    out_path = os.path.join(out_dir, f"{nb_spec['id']}.{nb_spec['type']}")
+    out_path = os.path.join(out_dir, f"{nb_spec['prefix']}{nb_spec['id']}.{nb_spec['type']}")
     return (out_dir, out_path)
 
 

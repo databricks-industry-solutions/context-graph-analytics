@@ -20,7 +20,8 @@ def cli():
 
 
 @cli.command()
-def generate():
+@click.option('--prefix', default=False, help="prefix generated notebooks with a number")
+def generate(prefix):
     cfg = get_config()
 
     common = {}
@@ -28,10 +29,14 @@ def generate():
         if type(v) != list and type(v) != dict:
             common[k] = v
 
+    i = 0
     print(f"Generating notebooks for ")
     for nb_spec in cfg["notebooks"]:
         nb_spec.update(common)
-        print("... " + nb_spec["id"])
+        nb_spec["prefix"] = ""
+        if prefix:
+            nb_spec["prefix"] = f"{i:02d}_"
+        print(f"... {nb_spec['prefix']}{nb_spec['id']}")
         if nb_spec["id"] == "dlt_edges":
             assert "dlt" in nb_spec and nb_spec["dlt"] == True
             graph_pipelines.gen_dlt_edges_notebook(nb_spec)
@@ -39,6 +44,7 @@ def generate():
             graph_pipelines.gen_create_views_notebook(nb_spec)
         else:
             graph_pipelines.gen_simple_notebook(nb_spec)
+        i += 1
 
 
 @cli.command()

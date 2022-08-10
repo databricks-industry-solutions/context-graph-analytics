@@ -1,5 +1,6 @@
 # Databricks notebook source
-# these time window input widgets enable the user to do back fill and re-processing 
+# This notebook is designed to be run as a task within a multi-task job workflow.
+# These time window input widgets enable the user to do back fill and re-processing within the multi-task job workflow
 #dbutils.widgets.removeAll()
 dbutils.widgets.text("okta_start_time", "", "start time (YYYY-mm-ddTHH:MM:SSZ): ")
 start_time = dbutils.widgets.get("okta_start_time")
