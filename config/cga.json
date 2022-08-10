@@ -23,6 +23,13 @@
       "gold_agg_buckets": ["DAY"]
     },
     {
+      "type": "sql",
+      "id": "create_views",
+      "desc": "create views (one for each time granularity) to unify the gold edges for each source",
+      "data_sources": [ "okta", "aad" ],
+      "gold_agg_buckets": ["DAY"]
+    },
+    {
       "type": "py",
       "id": "analytics_01_impact",
       "desc": "impact analysis"

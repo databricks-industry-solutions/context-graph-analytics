@@ -7,7 +7,7 @@ def wrap_cmds_into_notebook(cmd_str_list, desc):
     sep = "\n-- COMMAND ----------\n"
     return f"""-- Databricks notebook source
 -- MAGIC %md
--- MAGIC # Delta Live Table Pipeline
+-- MAGIC # Auto-generated Notebook
 -- MAGIC 
 -- MAGIC {desc}
 
@@ -88,6 +88,35 @@ def gen_dlt_edges_notebook(nb_spec):
     out_file = write_notebook(nb_spec, nb_str)
 
     return out_file
+
+def gen_create_views_notebook(nb_spec):
+
+    cmd_list = []
+    for time_granularity in nb_spec["gold_agg_buckets"]:
+        union_list = []
+        view_name = f"{nb_spec['tgt_db_name']}.v_edges_{time_granularity}"
+        for src in nb_spec["data_sources"]:
+            # generate the gold table name
+            gold_table =  f"{nb_spec['tgt_db_name']}.{src}_edges_gold_{time_granularity}"
+            union_list.append(f"""
+SELECT * FROM {gold_table}
+""")
+
+        union_str = "\nUNION ALL\n".join(union_list)
+        nb_str = f"""
+CREATE VIEW IF NOT EXISTS {view_name} 
+AS
+{union_str}
+;
+"""
+        cmd_list.append(nb_str)
+
+    nb_str = wrap_cmds_into_notebook(cmd_list, nb_spec["desc"])
+
+    out_file = write_notebook(nb_spec, nb_str)
+
+    return out_file
+
 
 
 if __name__ == "__main__":

@@ -35,6 +35,8 @@ def generate():
         if nb_spec["id"] == "dlt_edges":
             assert "dlt" in nb_spec and nb_spec["dlt"] == True
             graph_pipelines.gen_dlt_edges_notebook(nb_spec)
+        elif nb_spec["id"] == "create_views":
+            graph_pipelines.gen_create_views_notebook(nb_spec)
         else:
             graph_pipelines.gen_simple_notebook(nb_spec)
 
