@@ -1,8 +1,8 @@
 {
   "deploy_dir": "deploy",
   "template_dir": "templates",
-  "storage_path": "/tmp/lipyeow_ctx",
-  "tgt_db_name": "lipyeow_ctx",
+  "storage_path": "/tmp/solacc_cga",
+  "tgt_db_name": "solacc_cga",
   "notebooks": [
     {
       "type": "py",

@@ -97,7 +97,7 @@ WITH sub_matches AS (
   select
     *
   from
-    {{tgt_db_name}}.v_edges
+    {{tgt_db_name}}.v_edges_day
   where
     time_bkt = '{time_frame}' 
     AND ( sub_id = '{node_filter}'
@@ -125,7 +125,7 @@ obj_matches AS (
   select
     *
   from
-    {{tgt_db_name}}.v_edges
+    {{tgt_db_name}}.v_edges_day
   where
     time_bkt = '{time_frame}' 
     AND ( obj_id = '{node_filter}'
@@ -158,7 +158,7 @@ SELECT
   e2.*
 FROM
   sub_same_as AS s2
-  JOIN {{tgt_db_name}}.v_edges AS e2 ON s2.obj_id = e2.sub_id AND e2.time_bkt = '{time_frame}' 
+  JOIN {{tgt_db_name}}.v_edges_day AS e2 ON s2.obj_id = e2.sub_id AND e2.time_bkt = '{time_frame}' 
 UNION
 SELECT
   *
@@ -169,7 +169,7 @@ SELECT
   e4.*
 FROM
   obj_same_as AS s4
-  JOIN {{tgt_db_name}}.v_edges AS e4 ON s4.obj_id = e4.obj_id AND e4.time_bkt = '{time_frame}' 
+  JOIN {{tgt_db_name}}.v_edges_day AS e4 ON s4.obj_id = e4.obj_id AND e4.time_bkt = '{time_frame}' 
 UNION
 SELECT
   *
@@ -232,6 +232,7 @@ time_frame = "2022-07-20T00:00:00.000+0000"
 travel_node = "maria.cole@chang-fisher.com"
 #travel_node = "megan.chang@chang-fisher.com"
 #travel_node = "165.225.221.4"
+#travel_node = "199.106.8.190"
 #travel_node = "kyle.schultz@chang-fisher.com"
 
 sql_str = generate_sql_query( travel_node, time_frame )

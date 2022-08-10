@@ -20,7 +20,7 @@
 # MAGIC %sql
 # MAGIC 
 # MAGIC select sub_type, sub_id, sub_name, count(*) as out_degree
-# MAGIC from {{tgt_db_name}}.v_edges
+# MAGIC from {{tgt_db_name}}.v_edges_day
 # MAGIC where time_bkt = '2022-07-20T00:00:00.000+0000'
 # MAGIC group by sub_type, sub_id, sub_name
 # MAGIC order by out_degree desc
@@ -31,7 +31,7 @@
 # MAGIC %sql
 # MAGIC 
 # MAGIC select *
-# MAGIC from {{tgt_db_name}}.v_edges
+# MAGIC from {{tgt_db_name}}.v_edges_day
 # MAGIC WHERE time_bkt = '2022-07-20T00:00:00.000+0000' and obj_name ilike 'yammer' 
 
 # COMMAND ----------
@@ -40,7 +40,7 @@
 # MAGIC %sql
 # MAGIC 
 # MAGIC SELECT obj_name, count(DISTINCT sub_name) AS users_cnt
-# MAGIC FROM {{tgt_db_name}}.v_edges
+# MAGIC FROM {{tgt_db_name}}.v_edges_day
 # MAGIC WHERE time_bkt = '2022-07-20T00:00:00.000+0000' AND obj_type = 'ipAddress'
 # MAGIC GROUP BY obj_name
 # MAGIC ORDER BY users_cnt DESC
@@ -64,11 +64,11 @@ from graphframes import *
 
 v = spark.sql("""
 SELECT sub_id AS id, sub_name AS name
-FROM {{tgt_db_name}}.v_edges
+FROM {{tgt_db_name}}.v_edges_day
 WHERE time_bkt = '2022-07-20T00:00:00.000+0000'
 UNION
 SELECT obj_id AS id, obj_name AS name
-FROM {{tgt_db_name}}.v_edges
+FROM {{tgt_db_name}}.v_edges_day
 WHERE time_bkt = '2022-07-20T00:00:00.000+0000'
 UNION
 SELECT sub_id AS id, sub_name AS name
@@ -78,11 +78,11 @@ FROM {{tgt_db_name}}.same_as
 # duplicate the edges in the reverse direction in order to enable undirected path finding
 e = spark.sql("""
 SELECT sub_id AS src, obj_id AS dst, pred AS relationship
-FROM {{tgt_db_name}}.v_edges
+FROM {{tgt_db_name}}.v_edges_day
 WHERE time_bkt = '2022-07-20T00:00:00.000+0000'
 UNION
 SELECT obj_id AS src, sub_id AS dst, 'rev-' || pred AS relationship
-FROM {{tgt_db_name}}.v_edges
+FROM {{tgt_db_name}}.v_edges_day
 WHERE time_bkt = '2022-07-20T00:00:00.000+0000'
 UNION
 SELECT sub_id AS src, obj_id AS dst, pred AS relationship
