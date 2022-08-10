@@ -34,7 +34,7 @@
 # MAGIC   WITH entity_mapping AS
 # MAGIC   (
 # MAGIC     select distinct okta.sub_type as src_type, okta.sub_id as src_id, aad.sub_type as tgt_type, aad.sub_id as tgt_id, aad.sub_name as name
-# MAGIC     from {{tgt_db_name}}.okta_edges_gold AS okta join {{tgt_db_name}}.aad_edges_gold AS aad on okta.sub_name = aad.sub_name
+# MAGIC     from {{tgt_db_name}}.okta_edges_gold_day AS okta join {{tgt_db_name}}.aad_edges_gold_day AS aad on okta.sub_name = aad.sub_name
 # MAGIC   )
 # MAGIC   SELECT src_type AS sub_type, src_id AS sub_id, name AS sub_name, 'same_as' AS pred, NULL as pred_status, tgt_type AS obj_type, tgt_id AS obj_id, name AS obj_name
 # MAGIC   FROM entity_mapping
@@ -55,13 +55,13 @@
 # MAGIC FROM
 # MAGIC (
 # MAGIC select distinct sub_type, sub_id, sub_name
-# MAGIC from {{tgt_db_name}}.aad_edges_gold
+# MAGIC from {{tgt_db_name}}.aad_edges_gold_day
 # MAGIC where sub_name = 'maria.cole@chang-fisher.com' 
 # MAGIC or sub_name = 'maria.cook@summers.info'
 # MAGIC ) AS src, 
 # MAGIC (
 # MAGIC select distinct sub_type, sub_id, sub_name
-# MAGIC from {{tgt_db_name}}.aad_edges_gold
+# MAGIC from {{tgt_db_name}}.aad_edges_gold_day
 # MAGIC where sub_name = 'maria.cole@chang-fisher.com' 
 # MAGIC or sub_name = 'maria.cook@summers.info'
 # MAGIC ) AS tgt

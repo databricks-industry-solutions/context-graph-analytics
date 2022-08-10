@@ -89,6 +89,9 @@ def gen_dlt_edges_notebook(nb_spec):
 
     return out_file
 
+def gen_edges_table_name(db_name, level, src, time_granularity):
+    return f"{db_name}.{src.lower()}_edges_{level.lower()}_{time_granularity.lower()}"
+
 def gen_create_views_notebook(nb_spec):
 
     cmd_list = []
@@ -97,7 +100,7 @@ def gen_create_views_notebook(nb_spec):
         view_name = f"{nb_spec['tgt_db_name']}.v_edges_{time_granularity}"
         for src in nb_spec["data_sources"]:
             # generate the gold table name
-            gold_table =  f"{nb_spec['tgt_db_name']}.{src}_edges_gold_{time_granularity}"
+            gold_table =  gen_edges_table_name(nb_spec['tgt_db_name'], "gold", src, time_granularity)
             union_list.append(f"""
 SELECT * FROM {gold_table}
 """)
