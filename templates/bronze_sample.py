@@ -13,12 +13,12 @@ cfg={
                   {
                      "name": "aad_bronze",
                      "ts_path": "createdDateTime",
-                     "files": ["./InteractiveSignIns_2022-07-19_2022-07-20-anon.json.gz", "./NonInteractiveSignIns_2022-07-20_2022-07-21-anon.json.gz"]
+                     "files": ["./data/aad-i-sample.json.gz", "./data/aad-ni-sample.json.gz"]
                   }, 
                   {
                     "name": "okta_bronze",
                     "ts_path": "published",
-                    "files": ["./okta-anon.json.gz"]
+                    "files": ["./data/okta-sample.json.gz"]
                   }
                ]
 }
