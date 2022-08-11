@@ -109,6 +109,15 @@ version.
 1. Rebase/merge to the deploy_v1 branch or create a new branch as needed.
 1. Repeat the above deployment steps to generate notebooks and deploy to Databricks workspace
 
+### Running tests
+
+To run the provided integration or smoke tests:
+
+1. Clone the repo (either the original or the clone) to your laptop
+2. Change directory to the root directory of the repo
+3. Ensure you have installed the packages in `requirements.txt`
+4. Run `pytest`
+
 ___
 
 &copy; 2022 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below.
