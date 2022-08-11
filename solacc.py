@@ -6,24 +6,33 @@ import sys
 import click
 
 
-def get_config():
-    cfg_file = "config/cga.json"
-    with open(cfg_file, "r") as fp:
-        cfg = json.load(fp)
+def get_config(cfg_file):
+    try:
+        with open(cfg_file, "r") as fp:
+            cfg = json.load(fp)
+    except IOError:
+        print (f"Error opening config file '{cfg_file}'")
+        return None
     config.validate_config(cfg)
     return cfg
 
 
 @click.group()
-def cli():
-    pass
+@click.option('--config', default="config/cga.json", help="use config from given json file")
+@click.pass_context
+def cli(ctx, config):
+    ctx.ensure_object(dict)
+    cfg = get_config(config)
+    if cfg is None:
+        sys.exit()
+    ctx.obj['cfg']= cfg
 
 
 @cli.command()
 @click.option('--prefix', default=False, help="prefix generated notebooks with a number")
-def generate(prefix):
-    cfg = get_config()
-
+@click.pass_context
+def generate(ctx, prefix):
+    cfg = ctx.obj["cfg"]
     common = {}
     for k, v in cfg.items():
         if type(v) != list and type(v) != dict:
@@ -48,9 +57,10 @@ def generate(prefix):
 
 
 @cli.command()
-def deploy():
+@click.pass_context
+def deploy(ctx):
+    #print(f"deploy.cfg= {json.dumps(ctx.obj['cfg'], indent=2)}")
     click.echo("deploy not implemented yet.")
 
-
 if __name__ == "__main__":
-    cli()
+    cli(obj={})
