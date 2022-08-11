@@ -50,7 +50,7 @@ If you just want to try out the solution accelerator in a Databricks workspace w
 
 1. Ensure you have git integration setup in the workspace 
 2. Clone this repo to the workspace
-3. Switch to the `staging_latest` branch. The deploy folder will contain a generic version of the generated notebooks.
+3. Switch to the `test_drive` branch. The deploy folder will contain a generic version of the generated notebooks.
 4. Run the `bronze_sample.py` notebook to load the sample bronze tables
 5. Setup the DLT pipeline job for the edge extraction & aggregation pipelines using the `dlt_edges.sql` notebook.
 6. Run the DLT pipeline job.
@@ -115,8 +115,38 @@ To run the provided integration or smoke tests:
 
 1. Clone the repo (either the original or the clone) to your laptop
 2. Change directory to the root directory of the repo
-3. Ensure you have installed the packages in `requirements.txt`
+3. Ensure you have installed the required packages using `pip3 install -r requirements.txt`
 4. Run `pytest`
+
+To get coverage report:
+
+1. `pip3 install coverage`
+2. `coverage run -m pytest`
+3. `coverage report -m`
+
+### Development workflow
+
+This solution accelerator is based on a simple code generation framework that
+is controlled by a single configuration file `config/cga.json`. For simple
+notebooks, the `id` of a notebook specification corresponds to the jinja2
+source template file in the `templates` folder and corresponds to the output
+notebook file name. Here are guidelines on how to develop and add a new output
+notebook to this solution accelerator.
+
+1. First develop and test the new feature as a notebook (or DLT notebook) in a Databricks workspace. 
+2. Decide how you would like to generate the code for your notebook. Most
+notebooks can be templatized using Jinja2 syntax and generated as a simple
+notebook - this is the default branch in the code generation logic in
+`src/solacc.py`. In some cases where custom code generation is needed, create a
+new code generation function in `src/graph_pipelines.py` and add a branch to
+the code generation logic in `src/solacc.py`.
+3. Create a new test case in `src/test_everything.py`. The provide `smoke01` test will be a good example of how to create a test case.
+4. Ensure that `pytest` passes.
+5. Organize the code changes into a new branch
+6. Push your branch to the origin and open a pull request.
+7. Solicit code reviews for the pull request
+8. Once the pull request is approved, ask the contact author to merge the code into main.
+9. Optionally update the `test_drive` branch.
 
 ___
 
