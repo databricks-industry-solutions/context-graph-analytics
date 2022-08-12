@@ -13,21 +13,37 @@
 # MAGIC     * Given a compromised app, who are the users being affected?
 # MAGIC     * Given two compromised user accounts, what if any is the relationship between them within the given time frame?
 # MAGIC     * Given a compromiesd app/user/resource, what is the blast radius within the given time frame (use connected component analysis)?
+# MAGIC     
+# MAGIC ## Time filtering on time aggregated gold tables
+# MAGIC 
+# MAGIC * The gold edges tables are aggregated into time buckets at possibly several granularities (hour, day, month etc)
+# MAGIC * You typically want to query the gold table with the coarsest time granularity for the retention period your query is relevant for in order to get the best performance. For example if you want to query the data over the past 1 year, you should use the `v_edges_gold_month` (assuming you have constructed the monthly tables).
+# MAGIC * Because each row in the gold tables corresponds to a time bucket
+# MAGIC     * your query predicate needs to check for intersection with the query time window, AND
+# MAGIC     * you might want to aggregate the results so that the edges are unique
+# MAGIC     * this is demonstrated in the query below
 
 # COMMAND ----------
 
-# DBTITLE 1,Handling time window filters
-# MAGIC %sql
-# MAGIC 
-# MAGIC SELECT sub_type, sub_id, sub_name, count(*) as out_degree
-# MAGIC FROM solacc_cga.v_edges_day
-# MAGIC WHERE (first_seen >= '2022-07-19T01:30:00.000+0000'
-# MAGIC AND last_seen <= '2022-07-21T08:50:00.000+0000')
-# MAGIC OR (first_seen >= '2022-07-19T01:30:00.000+0000' AND first_seen <= '2022-07-21T08:50:00.000+0000') 
-# MAGIC OR (last_seen >= '2022-07-19T01:30:00.000+0000' AND last_seen <= '2022-07-21T08:50:00.000+0000') 
-# MAGIC GROUP BY sub_type, sub_id, sub_name,
-# MAGIC   pred, pred_status, obj_type, obj_id, obj_name
-# MAGIC ORDER BY out_degree desc
+# DBTITLE 1,Handling time window filters on the aggregated edge tables
+ts_lo = "2022-07-19T01:30:00.000+0000"
+ts_hi = "2022-07-21T08:50:00.000+0000"
+
+sqlstr = f"""
+SELECT e.sub_type, e.sub_id, e.sub_name,
+      e.pred, e.pred_status, 
+      e.obj_type, e.obj_id, e.obj_name,
+      sum(e.cnt) AS cnt, min(e.first_seen) AS first_seen, max(e.last_seen) AS last_seen
+FROM solacc_cga.v_edges_day AS e
+WHERE  (e.first_seen >= '{ts_lo}' AND e.last_seen <= '{ts_hi}')
+    OR (e.first_seen >= '{ts_lo}' AND e.first_seen <= '{ts_hi}') 
+    OR (e.last_seen  >= '{ts_lo}' AND e.last_seen <= 'ts_hi') 
+GROUP BY sub_type, sub_id, sub_name, pred, pred_status, obj_type, obj_id, obj_name
+ORDER BY first_seen desc
+"""
+
+df = spark.sql(sqlstr)
+display(df)
 
 # COMMAND ----------
 
@@ -133,4 +149,5 @@ print("\n\nNumber of nodes in each connected component:")
 display(cc.groupBy("component").count().orderBy(f.col("count").desc()))
 
 # COMMAND ----------
+
 
