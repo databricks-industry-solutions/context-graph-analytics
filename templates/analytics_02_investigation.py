@@ -48,7 +48,7 @@ def stringify(col):
 
 def add_edges_from_df(G, edges_df):
   n=0
-  for (time_bkt, sub_type, sub_id, sub_name, pred, pred_status, obj_type, obj_id, obj_name, first_seen, last_seen, cnt) in edges_df.collect():
+  for (src, time_bkt, sub_type, sub_id, sub_name, pred, pred_status, obj_type, obj_id, obj_name, first_seen, last_seen, cnt) in edges_df.collect():
     nodes = [(sub_id, {"type": sub_type, "name": sub_name, "color": get_node_color(sub_type)}),
              (obj_id, {"type": obj_type, "name": obj_name, "color": get_node_color(obj_type)})]
     G.add_nodes_from(nodes)
@@ -105,7 +105,8 @@ WITH sub_matches AS (
 ),
 sub_same_as AS (
   SELECT
-    NULL as time_bkt,
+    s1.src,
+    s1.time_bkt,
     s1.sub_type,
     s1.sub_id,
     s1.sub_name,
@@ -133,7 +134,8 @@ obj_matches AS (
 ),
 obj_same_as AS (
   SELECT
-    NULL as time_bkt,
+    s3.src,
+    s3.time_bkt,
     s3.sub_type,
     s3.sub_id,
     s3.sub_name,
