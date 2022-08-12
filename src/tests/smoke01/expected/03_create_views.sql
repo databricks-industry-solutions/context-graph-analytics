@@ -6,6 +6,8 @@
 
 -- COMMAND ----------
 
+DROP VIEW IF EXISTS solacc_cga.v_edges_DAY;
+
 CREATE VIEW IF NOT EXISTS solacc_cga.v_edges_DAY 
 AS
 
@@ -18,4 +20,5 @@ SELECT 'aad' AS src, * FROM solacc_cga.aad_edges_gold_day
 ;
 
 -- COMMAND ----------
+
 
