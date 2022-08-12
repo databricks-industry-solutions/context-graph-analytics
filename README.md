@@ -134,19 +134,20 @@ notebook file name. Here are guidelines on how to develop and add a new output
 notebook to this solution accelerator.
 
 1. First develop and test the new feature as a notebook (or DLT notebook) in a Databricks workspace. 
-2. Decide how you would like to generate the code for your notebook. Most
+2. Create a new branch and prefix the branch name with your name.
+3. Create a new test case in `src/test_everything.py` using the notebook you developed and tested. The provided `smoke01` test will be a good example of how to create a test case.
+4. Decide how you would like to generate the code for your notebook. Most
 notebooks can be templatized using Jinja2 syntax and generated as a simple
 notebook - this is the default branch in the code generation logic in
 `src/solacc.py`. In some cases where custom code generation is needed, create a
 new code generation function in `src/graph_pipelines.py` and add a branch to
-the code generation logic in `src/solacc.py`.
-3. Create a new test case in `src/test_everything.py`. The provide `smoke01` test will be a good example of how to create a test case.
-4. Ensure that `pytest` passes.
-5. Organize the code changes into a new branch
-6. Push your branch to the origin and open a pull request.
-7. Solicit code reviews for the pull request
-8. Once the pull request is approved, ask the contact author to merge the code into main.
-9. Optionally update the `test_drive` branch.
+the code generation logic in `src/solacc.py`. 
+5. Use the test case you created earlier to drive the development and testing.
+6. Ensure that `pytest` passes.
+7. Push your branch to the origin and open a pull request.
+8. Solicit code reviews for the pull request
+9. Once the pull request is approved, ask the contact author to merge the code into main.
+10. Optionally update the `test_drive` branch.
 
 ___
 
