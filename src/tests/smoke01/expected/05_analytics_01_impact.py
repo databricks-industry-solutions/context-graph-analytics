@@ -16,6 +16,21 @@
 
 # COMMAND ----------
 
+# DBTITLE 1,Handling time window filters
+# MAGIC %sql
+# MAGIC 
+# MAGIC SELECT sub_type, sub_id, sub_name, count(*) as out_degree
+# MAGIC FROM solacc_cga.v_edges_day
+# MAGIC WHERE (first_seen >= '2022-07-19T01:30:00.000+0000'
+# MAGIC AND last_seen <= '2022-07-21T08:50:00.000+0000')
+# MAGIC OR (first_seen >= '2022-07-19T01:30:00.000+0000' AND first_seen <= '2022-07-21T08:50:00.000+0000') 
+# MAGIC OR (last_seen >= '2022-07-19T01:30:00.000+0000' AND last_seen <= '2022-07-21T08:50:00.000+0000') 
+# MAGIC GROUP BY sub_type, sub_id, sub_name,
+# MAGIC   pred, pred_status, obj_type, obj_id, obj_name
+# MAGIC ORDER BY out_degree desc
+
+# COMMAND ----------
+
 # DBTITLE 1,Which users have the largest footprint/surface?
 # MAGIC %sql
 # MAGIC 
