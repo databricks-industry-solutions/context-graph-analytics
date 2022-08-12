@@ -102,11 +102,14 @@ def gen_create_views_notebook(nb_spec):
             # generate the gold table name
             gold_table =  gen_edges_table_name(nb_spec['tgt_db_name'], "gold", src, time_granularity)
             union_list.append(f"""
-SELECT * FROM {gold_table}
+SELECT '{src}' AS src, * FROM {gold_table}
 """)
 
         union_str = "\nUNION ALL\n".join(union_list)
         nb_str = f"""
+
+DROP VIEW IF EXISTS {view_name};
+
 CREATE VIEW IF NOT EXISTS {view_name} 
 AS
 {union_str}

@@ -37,13 +37,13 @@
 # MAGIC (
 # MAGIC   WITH entity_mapping AS
 # MAGIC   (
-# MAGIC     select distinct okta.sub_type as src_type, okta.sub_id as src_id, aad.sub_type as tgt_type, aad.sub_id as tgt_id, aad.sub_name as name
-# MAGIC     from solacc_cga.okta_edges_gold_day AS okta join solacc_cga.aad_edges_gold_day AS aad on okta.sub_name = aad.sub_name
+# MAGIC     SELECT DISTINCT okta.sub_type AS src_type, okta.sub_id AS src_id, aad.sub_type AS tgt_type, aad.sub_id AS tgt_id, aad.sub_name AS name
+# MAGIC     FROM solacc_cga.okta_edges_gold_day AS okta join solacc_cga.aad_edges_gold_day AS aad on okta.sub_name = aad.sub_name
 # MAGIC   )
-# MAGIC   SELECT 'okta' AS src, NULL as time_bkt, src_type AS sub_type, src_id AS sub_id, name AS sub_name, 'same_as' AS pred, NULL as pred_status, tgt_type AS obj_type, tgt_id AS obj_id, name AS obj_name
+# MAGIC   SELECT 'okta' AS src, NULL AS time_bkt, src_type AS sub_type, src_id AS sub_id, name AS sub_name, 'same_as' AS pred, NULL AS pred_status, tgt_type AS obj_type, tgt_id AS obj_id, name AS obj_name
 # MAGIC   FROM entity_mapping
 # MAGIC   UNION
-# MAGIC   SELECT 'aad' AS src, NULL AS time_bkt, tgt_type AS sub_type, tgt_id AS sub_id, name AS sub_name, 'same_as' AS pred, NULL as pred_status, src_type AS obj_type, src_id AS obj_id, name AS obj_name
+# MAGIC   SELECT 'aad' AS src, NULL AS time_bkt, tgt_type AS sub_type, tgt_id AS sub_id, name AS sub_name, 'same_as' AS pred, NULL AS pred_status, src_type AS obj_type, src_id AS obj_id, name AS obj_name
 # MAGIC   FROM entity_mapping
 # MAGIC );
 
@@ -55,7 +55,7 @@
 # MAGIC 
 # MAGIC INSERT INTO solacc_cga.same_as 
 # MAGIC (
-# MAGIC SELECT DISTINCT 'aad' AS src, NULL as time_bkt, src.sub_type, src.sub_id, src.sub_name, 'same_as' AS pred, NULL as pred_status, tgt.sub_type, tgt.sub_id, tgt.sub_name
+# MAGIC SELECT DISTINCT 'aad' AS src, NULL AS time_bkt, src.sub_type, src.sub_id, src.sub_name, 'same_as' AS pred, NULL AS pred_status, tgt.sub_type, tgt.sub_id, tgt.sub_name
 # MAGIC FROM
 # MAGIC (
 # MAGIC SELECT DISTINCT sub_type, sub_id, sub_name
