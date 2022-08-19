@@ -58,16 +58,16 @@ If you just want to try out the solution accelerator in a Databricks workspace w
 8. Run the `extract_same_as_edges.py` notebook.
 7. Open up the `analytics_01_impact.py` or the `analytics_02_investigation.py` notebook and follow the steps to run it.
 
-If you want to customize or further build on the solution accelerator, follow the development and deployment guide in the next section.
+If you want to customize or further build on the solution accelerator, follow the deployment guide and development guide in the next two sections.
 
-## Development & Deployment Guide
+## Deployment Guide
 
 The general philosophy is to manage all configurations and deployed notebooks
 as code using git processes for version control. It is crucial that the
 actual deployed notebooks are versioned controlled to facilitate operational
 debugging and troubleshooting.
 
-### Deployment
+### Initial Deployment
 
 1. Fork this repo in your organization’s github/gitlab (henceforth
 my-context-graph repo) & set the upstream to the original
@@ -109,6 +109,8 @@ version.
 1. Rebase/merge to the deploy_v1 branch or create a new branch as needed.
 1. Repeat the above deployment steps to generate notebooks and deploy to Databricks workspace
 
+## Development Guide
+
 ### Running tests
 
 To run the provided integration or smoke tests:
@@ -124,14 +126,14 @@ To get coverage report:
 2. `coverage run -m pytest`
 3. `coverage report -m`
 
-### Development workflow
+### Test-driven development workflow
 
 This solution accelerator is based on a simple code generation framework that
 is controlled by a single configuration file `config/cga.json`. For simple
 notebooks, the `id` of a notebook specification corresponds to the jinja2
 source template file in the `templates` folder and corresponds to the output
 notebook file name. Here are guidelines on how to develop and add a new output
-notebook to this solution accelerator.
+notebook to this solution accelerator following a [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) paradigm.
 
 1. First develop and test the new feature as a notebook (or DLT notebook) in a Databricks workspace. 
 2. Create a new branch and prefix the branch name with your name.
