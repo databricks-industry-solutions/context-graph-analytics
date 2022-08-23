@@ -230,31 +230,49 @@ g_df = None
 # it is foolish to try and render a 1M node graph
 # note that dbutils.widget parametrization is an option that was tried, but the following is easier and more stable
 
-time_frame = "2022-07-20T00:00:00.000+0000"
-travel_node = "maria.cole@chang-fisher.com"
-#travel_node = "megan.chang@chang-fisher.com"
-#travel_node = "165.225.221.4"
-#travel_node = "199.106.8.190"
-#travel_node = "kyle.schultz@chang-fisher.com"
+import ipywidgets as widgets
+from ipywidgets import interact
 
-sql_str = generate_sql_query( travel_node, time_frame )
+@interact(travel_node=["maria.cole@chang-fisher.com", "megan.chang@chang-fisher.com", "199.106.8.190", "kyle.schultz@chang-fisher.com"], time_frame = "2022-07-20T00:00:00.000+0000")
+def add_edges_to_graph(travel_node="maria.cole@chang-fisher.com", time_frame = "2022-07-20T00:00:00.000+0000"):
 
-edges_df = spark.sql(sql_str)
+  #travel_node = "maria.cole@chang-fisher.com"
+  #travel_node = "megan.chang@chang-fisher.com"
+  #travel_node = "165.225.221.4"
+  #travel_node = "199.106.8.190"
+  #travel_node = "kyle.schultz@chang-fisher.com"
 
-if g_df is None:
-  g_df = edges_df
-else:
-  g_df = g_df.union(edges_df)
+  sql_str = generate_sql_query( travel_node, time_frame )
 
-# display edges from most recent query
-display(edges_df)
+  edges_df = spark.sql(sql_str)
 
-add_edges_from_df(G, edges_df)
-# display the investigation graph so far
-displayGraph(G, "Identity Context")
+  global g_df
+  global G
+  
+  if g_df is None:
+    g_df = edges_df
+  else:
+    g_df = g_df.union(edges_df)
 
-# display the edges of the entire search history since last reset
-display(g_df)
+  # display edges from most recent query
+  display(edges_df)
+
+  add_edges_from_df(G, edges_df)
+  # display the investigation graph so far
+  displayGraph(G, "Identity Context")
+
+  # display the edges of the entire search history since last reset
+  display(g_df)
 
 # COMMAND ----------
+
+import ipywidgets as widgets
+from ipywidgets import interact
+
+@interact(column='hello')
+def f(column='hello'):
+  print(column)
+
+# COMMAND ----------
+
 
