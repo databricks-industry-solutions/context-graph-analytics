@@ -35,10 +35,11 @@ for t in getParam("table_list"):
   sql_list.append(
             f"""
 CREATE TABLE IF NOT EXISTS {table_name} (
-  ingest_ts timestamp, 
-  event_ts timestamp,
-  event_date date,
-  raw string
+  ingest_ts TIMESTAMP, 
+  event_ts TIMESTAMP,
+  event_date DATE,
+  rid STRING,
+  raw STRING
 )
 USING DELTA
 PARTITIONED BY (event_date)
@@ -73,6 +74,7 @@ def load_jsonfiles(full_table_name, jsonfiles, ts_path):
           .selectExpr(f"'{ingest_ts.isoformat()}'::timestamp AS ingest_ts",
                   f"date_trunc('DAY', raw:{ts_path}::timestamp)::date AS event_date",
                   f"raw:{ts_path}::timestamp AS event_ts",
+                  "uuid() AS rid",
                   "raw AS raw")
         )
     df.write.mode("append").saveAsTable(full_table_name)

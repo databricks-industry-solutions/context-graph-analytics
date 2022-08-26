@@ -10,7 +10,7 @@ PARTITIONED BY (event_ts)
 TBLPROPERTIES("quality"="silver")
 AS
 SELECT event_ts,
-  raw:uuid as src_rid,
+  rid as src_rid,
   'user-okta' as sub_type,
   raw:actor.id as sub_id,
   raw:actor.alternateId as sub_name,
@@ -51,7 +51,7 @@ PARTITIONED BY (event_ts)
 TBLPROPERTIES("quality"="silver")
 AS
 SELECT event_ts,
-  raw:id AS src_rid,
+  rid AS src_rid,
   'user-aad' AS sub_type,
   raw:userId AS sub_id,
   raw:userPrincipalName AS sub_name,
