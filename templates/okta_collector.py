@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS {cfg['target_db']}.{cfg['target_table']} (
             ingest_ts TIMESTAMP,
             event_ts TIMESTAMP,
             event_date TIMESTAMP,
+            rid STRING,
             raw STRING) USING DELTA PARTITIONED BY (event_date) LOCATION '{cfg['storage_path']}'
             """
 print(sql_str)
@@ -101,6 +102,7 @@ def poll_okta_logs(cfg, debug=False):
         .selectExpr(f"'{ingest_ts.isoformat()}'::timestamp AS ingest_ts",
                   "date_trunc('DAY', raw:published::timestamp) AS event_date",
                   "raw:published::timestamp AS event_ts",
+                  "uuid() AS rid",
                   "raw AS raw")
     )
     #print("%d %s" % (df.count(),url))
