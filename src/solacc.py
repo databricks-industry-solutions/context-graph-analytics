@@ -33,6 +33,8 @@ def cli(ctx, config):
 @click.pass_context
 def generate(ctx, prefix):
     cfg = ctx.obj["cfg"]
+
+    # extract common key-atomic_value pairs to be used in templates for each notebook
     common = {}
     for k, v in cfg.items():
         if type(v) != list and type(v) != dict:
@@ -41,6 +43,7 @@ def generate(ctx, prefix):
     i = 0
     print(f"Generating notebooks for ")
     for nb_spec in cfg["notebooks"]:
+        # add the top-level common vars into nb_spec for used in template rendering
         nb_spec.update(common)
         nb_spec["prefix"] = ""
         if prefix:

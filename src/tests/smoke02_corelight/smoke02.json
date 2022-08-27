@@ -1,0 +1,24 @@
+{
+  "deploy_dir": "src/tests/smoke02_corelight/results",
+  "template_dir": "templates",
+  "storage_path": "/tmp/solacc_cga",
+  "tgt_db_name": "solacc_cga",
+  "notebooks": [
+    {
+      "type": "sql",
+      "id": "dlt_edges",
+      "dlt": true,
+      "desc": "pipeline to build silver & bronze edge tables",
+      "data_sources": [ "corelight_dhcp", "corelight_dns", "corelight_http", "corelight_suricata", "corelight_files" ],
+      "gold_agg_buckets": ["DAY"]
+    },
+    {
+      "type": "sql",
+      "id": "create_views",
+      "desc": "create views (one for each time granularity) to unify the gold edges for each source",
+      "data_sources": [ "corelight_dhcp", "corelight_dns", "corelight_http", "corelight_suricata", "corelight_files" ],
+      "gold_agg_buckets": ["DAY"]
+    }
+  ] 
+}
+

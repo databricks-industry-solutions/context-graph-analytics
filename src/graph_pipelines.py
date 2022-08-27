@@ -42,7 +42,9 @@ def write_notebook(nb_spec, nb_str):
         outfp.write(nb_str)
     return out_file
 
-
+#
+# This is the generic/simplest notebook generation code path
+#
 def gen_simple_notebook(nb_spec):
     # generate the path to template file
     template_file = get_template_file_path(nb_spec)
@@ -56,7 +58,9 @@ def gen_simple_notebook(nb_spec):
 
     return nb_str
 
-
+#
+# custom logic for generating notebook with id=dlt_edges
+#
 def gen_dlt_edges_notebook(nb_spec):
 
     cmd_list = []
@@ -92,9 +96,13 @@ def gen_dlt_edges_notebook(nb_spec):
 def gen_edges_table_name(db_name, level, src, time_granularity):
     return f"{db_name}.{src.lower()}_edges_{level.lower()}_{time_granularity.lower()}"
 
+#
+# custom logic for generating notebook with id=create_views
+#
 def gen_create_views_notebook(nb_spec):
 
     cmd_list = []
+    # generate the v_edges view for each time granularity
     for time_granularity in nb_spec["gold_agg_buckets"]:
         union_list = []
         view_name = f"{nb_spec['tgt_db_name']}.v_edges_{time_granularity}"
