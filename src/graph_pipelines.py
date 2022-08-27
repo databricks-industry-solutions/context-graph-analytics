@@ -94,6 +94,8 @@ def gen_dlt_edges_notebook(nb_spec):
     return out_file
 
 def gen_edges_table_name(db_name, level, src, time_granularity):
+    if level == "silver":
+        return f"{db_name}.{src.lower()}_edges_{level.lower()}"
     return f"{db_name}.{src.lower()}_edges_{level.lower()}_{time_granularity.lower()}"
 
 #
@@ -125,6 +127,29 @@ AS
 """
         cmd_list.append(nb_str)
 
+    # generate the union all views for silver edges as well
+    union_list = []
+    view_name = f"{nb_spec['tgt_db_name']}.v_edges_silver"
+    for src in nb_spec["data_sources"]:
+        # generate the silver table name
+        silver_table =  gen_edges_table_name(nb_spec['tgt_db_name'], "silver", src, time_granularity)
+        union_list.append(f"""
+SELECT '{src}' AS src, * FROM {silver_table}
+""")
+
+    union_str = "\nUNION ALL\n".join(union_list)
+    nb_str = f"""
+
+DROP VIEW IF EXISTS {view_name};
+
+CREATE VIEW IF NOT EXISTS {view_name} 
+AS
+{union_str}
+;
+"""
+    cmd_list.append(nb_str)
+
+    # generate a notebook from the cmd list
     nb_str = wrap_cmds_into_notebook(cmd_list, nb_spec["desc"])
 
     out_file = write_notebook(nb_spec, nb_str)

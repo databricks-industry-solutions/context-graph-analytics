@@ -193,7 +193,7 @@ FROM
   return """
 select
     *
-from lipyeow_ctx.v_edges
+from solacc_cga.v_edges
 where time_bkt = '{time_frame}' 
   AND ( sub_id = '{node_filter}' 
     OR sub_name = '{node_filter}'
@@ -277,5 +277,4 @@ displayGraph(G, "Identity Context")
 display(g_df)
 
 # COMMAND ----------
-
 

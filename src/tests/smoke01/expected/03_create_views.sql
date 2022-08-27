@@ -38,4 +38,3 @@ SELECT 'aad' AS src, * FROM solacc_cga.aad_edges_silver
 
 -- COMMAND ----------
 
-
