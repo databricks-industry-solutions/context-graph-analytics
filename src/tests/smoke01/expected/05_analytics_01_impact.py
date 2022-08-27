@@ -25,7 +25,7 @@
 
 # COMMAND ----------
 
-# DBTITLE 1,Handling time window filters on the aggregated edge tables
+# DBTITLE 1,Handling time window filters on the gold aggregated edge tables
 ts_lo = "2022-07-19T01:30:00.000+0000"
 ts_hi = "2022-07-21T08:50:00.000+0000"
 
@@ -44,6 +44,26 @@ ORDER BY first_seen desc
 
 df = spark.sql(sqlstr)
 display(df)
+
+# COMMAND ----------
+
+# DBTITLE 1,General statistics of the data
+# MAGIC %sql
+# MAGIC 
+# MAGIC SELECT 
+# MAGIC   (SELECT count(*) FROM solacc_cga.v_edges_silver ) AS silver_edges_cnt,
+# MAGIC   (SELECT count( DISTINCT *) FROM (SELECT sub_id FROM solacc_cga.v_edges_silver UNION ALL SELECT obj_id FROM solacc_cga.v_edges_silver) ) AS silver_nodes_cnt,
+# MAGIC   (SELECT count(*) FROM solacc_cga.v_edges_day) AS gold_day_edges_cnt,
+# MAGIC   (SELECT count( DISTINCT *) FROM (SELECT sub_id FROM solacc_cga.v_edges_day UNION ALL SELECT obj_id FROM solacc_cga.v_edges_day) ) AS gold_nodes_cnt
+# MAGIC   ;
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC 
+# MAGIC SELECT time_bkt, count(*) AS gold_edges_cnt
+# MAGIC FROM solacc_cga.v_edges_day
+# MAGIC GROUP BY time_bkt;
 
 # COMMAND ----------
 
@@ -83,7 +103,7 @@ display(df)
 # MAGIC 
 # MAGIC ## Analysis using the `graphframes` package 
 # MAGIC 
-# MAGIC The next two analytics use case uses the graphframes package to perform Breadth First Search (BFS) and Connected Component (CC) analysis over large graph data sets.
+# MAGIC The next two analytics use case uses the graphframes package to perform Breadth First Search (BFS) and Connected Component (CC) analysis over large graph data sets. Note that connected component algorithm applies to undirected graphs and finds the components/subgraphs that are connected internally but not connected externally to the subgraph. The analogue for directed graphs is the notion of strongly connected components (SCC) where the nodes within a SCC are reachable to each other.
 # MAGIC 
 # MAGIC * BFS is used to determined if there is some path that connects to compromised user accounts. The paths (if any) represents possible pathways that an actor might have moved laterally.
 # MAGIC * CC analysis is used to determine the partition/segmentation of the attack surface represented in the graph that represents the blast radius if any node in each component is compromised.

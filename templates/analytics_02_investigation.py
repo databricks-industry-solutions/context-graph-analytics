@@ -34,12 +34,18 @@ from bokeh.resources import CDN
 
 def get_node_color(node_type):
   if node_type[:4] == "user":
+    return "dimgray"  
+  if node_type == "suricata-alert":
     return "red"
   if node_type == "ipAddress":
-    return "orange"
+    return "#F39C12"
+  if node_type == "hash":
+    return "#F9E79F"
+  if node_type == "fqdn":
+    return "#F1C40F"
   if node_type == "app":
-    return "green"
-  return "skyblue"
+    return "dodgerblue"
+  return "lightblue"
 
 def stringify(col):
   if col is None:
@@ -91,8 +97,9 @@ def displayGraph(G, title):
 
 # Generate the sql query for the graph search/navigation using a template
 # Incorporates the same_as edges in the search
-def generate_sql_query(node_filter, time_frame):
-  return f"""
+def generate_sql_query(node_filter, time_frame, same_as=True):
+  if same_as:
+    return f"""
 WITH sub_matches AS (
   select
     *
@@ -183,7 +190,19 @@ SELECT
 FROM
   obj_same_as
 """
-
+  return """
+select
+    *
+from {{tgt_db_name}}.v_edges
+where time_bkt = '{time_frame}' 
+  AND ( sub_id = '{node_filter}' 
+    OR sub_name = '{node_filter}'
+    OR obj_id = '{node_filter}'
+    OR obj_name = '{node_filter}'
+    OR sub_name ilike '%{node_filter}%'
+    OR obj_name ilike '%{node_filter}%'
+    )  
+  """
 
 # COMMAND ----------
 
@@ -236,8 +255,9 @@ travel_node = "maria.cole@chang-fisher.com"
 #travel_node = "165.225.221.4"
 #travel_node = "199.106.8.190"
 #travel_node = "kyle.schultz@chang-fisher.com"
+use_same_as = True
 
-sql_str = generate_sql_query( travel_node, time_frame )
+sql_str = generate_sql_query( travel_node, time_frame, use_same_as )
 
 edges_df = spark.sql(sql_str)
 
