@@ -27,6 +27,9 @@ def getParam(parm):
   return cfg.get(parm)
 
 sql_list = [ f"""
+DROP SCHEMA IF EXISTS {getParam('db_name')} CASCADE
+""",
+f"""
 CREATE SCHEMA IF NOT EXISTS {getParam('db_name')} LOCATION '{getParam('storage_path')}'
 """]
 
@@ -44,7 +47,6 @@ CREATE TABLE IF NOT EXISTS {table_name} (
 USING DELTA
 PARTITIONED BY (event_date)
 """)
-  sql_list.append(f"TRUNCATE TABLE {table_name}")
 
 for sql_str in sql_list:
   print(sql_str)
