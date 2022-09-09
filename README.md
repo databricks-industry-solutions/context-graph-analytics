@@ -51,12 +51,17 @@ If you just want to try out the solution accelerator in a Databricks workspace w
 1. Ensure you have git integration setup in the workspace 
 2. Clone this repo to the workspace
 3. Switch to the `test_drive` branch. The deploy folder will contain a generic version of the generated notebooks.
-4. Run the `bronze_sample.py` notebook to load the sample bronze tables
-5. Setup the DLT pipeline job for the edge extraction & aggregation pipelines using the `dlt_edges.sql` notebook.
-6. Run the DLT pipeline job.
-7. Run the `create_views.py` notebook.
-8. Run the `extract_same_as_edges.py` notebook.
-7. Open up the `analytics_01_impact.py` or the `analytics_02_investigation.py` notebook and follow the steps to run it.
+4. Run the `RUNME.py` notebook.
+5. Feel free to open up the `analytics_01_impact.py` or the `analytics_02_investigation.py` notebook and play with the analytics.
+
+If you are curious what does `RUNME.py` do, it basically automates the following manual steps:
+
+1. Run the `bronze_sample.py` notebook to load the sample bronze tables
+2. Setup the DLT pipeline job for the edge extraction & aggregation pipelines using the `dlt_edges.sql` notebook.
+3. Run the DLT pipeline job.
+4. Run the `create_views.py` notebook.
+5. Run the `extract_same_as_edges.py` notebook.
+6. Run the `analytics_01_impact.py`.
 
 If you want to customize or further build on the solution accelerator, follow the deployment guide and development guide in the next two sections.
 
@@ -160,4 +165,10 @@ ___
 | jinja2 | Templating library | BSD-3 | https://github.com/pallets/jinja/ |
 | click  | CLI framework  | BSD-3 | https://github.com/pallets/click |
 | jsonschema  | json validation  | MIT | https://github.com/python-jsonschema/jsonschema |
+| databricks-cli | databricks cli | Apache 2.0 | https://github.com/databricks/databricks-cli |
 
+## Acknowledgements
+
+This solution accelerator is made possible with the help of:
+
+* M from [actionable.today](https://www.actionable.today/), for his review, comments and discussions.

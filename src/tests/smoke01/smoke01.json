@@ -43,7 +43,12 @@
       "type": "py",
       "id": "analytics_02_investigation",
       "desc": "create graph visualization during investigation process"
-    }  
+    },
+    {
+      "type": "py",
+      "id": "RUNME",
+      "desc": "Convenience notebook for running the entire solution accelerator"
+    }
   ] 
 }
 
