@@ -14,6 +14,10 @@
 # MAGIC     * Given two compromised user accounts, what if any is the relationship between them within the given time frame?
 # MAGIC     * Given a compromiesd app/user/resource, what is the blast radius within the given time frame (use connected component analysis)?
 # MAGIC     
+# MAGIC ## Reference Architecture
+# MAGIC 
+# MAGIC <img src="https://github.com/lipyeowlim/public/raw/main/img/context-graph/Context_Graph_Architecture.png" width="600px">
+# MAGIC 
 # MAGIC ## Time filtering on time aggregated gold tables
 # MAGIC 
 # MAGIC * The gold edges tables are aggregated into time buckets at possibly several granularities (hour, day, month etc)
@@ -101,12 +105,23 @@ display(df)
 
 # MAGIC %md 
 # MAGIC 
-# MAGIC ## Analysis using the `graphframes` package 
+# MAGIC # The `graphframes` package
 # MAGIC 
-# MAGIC The next two analytics use case uses the graphframes package to perform Breadth First Search (BFS) and Connected Component (CC) analysis over large graph data sets. Note that connected component algorithm applies to undirected graphs and finds the components/subgraphs that are connected internally but not connected externally to the subgraph. The analogue for directed graphs is the notion of strongly connected components (SCC) where the nodes within a SCC are reachable to each other.
+# MAGIC The `graphframes` package provides out-of-the-box graph algorithms that can be used to analyze very big graphs leveraging the spark dataframes abstraction. 
 # MAGIC 
-# MAGIC * BFS is used to determined if there is some path that connects to compromised user accounts. The paths (if any) represents possible pathways that an actor might have moved laterally.
-# MAGIC * CC analysis is used to determine the partition/segmentation of the attack surface represented in the graph that represents the blast radius if any node in each component is compromised.
+# MAGIC The next two analytics use case uses the graphframes package to perform Breadth First Search (BFS) and Connected Component (CC) analysis over large graph data sets. 
+# MAGIC 
+# MAGIC ## Recommended Analytics Workflow
+# MAGIC 
+# MAGIC For very large graphs with billions of edges, we recommend aggregating edges to gold tables using a sensible criteria like time buckets. The gold tables may still contain low billions or millions of edges and should ideally be filtered down to smaller sub-graphs before applying advanced analytics on the filtered graph data.
+# MAGIC 
+# MAGIC <img src="https://github.com/lipyeowlim/public/raw/main/img/context-graph/multiresolution_graph_analytics.png" width="800px">
+# MAGIC 
+# MAGIC ## Reachability or Path Analysis using Breadth First Search (BFS)
+# MAGIC 
+# MAGIC BFS is used to determined if there is some path that connects to compromised user accounts. The paths (if any) represents possible pathways that an actor might have moved laterally.
+# MAGIC 
+# MAGIC <img src="https://github.com/lipyeowlim/public/raw/main/img/context-graph/bfs_paths.png" width="600px">
 
 # COMMAND ----------
 
@@ -148,6 +163,18 @@ g = GraphFrame(v, e)
 paths = g.bfs("name = 'megan.chang@chang-fisher.com'", "name = 'maria.cook@summers.info'", maxPathLength=7)
 
 display(paths)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
+# MAGIC ## Impact Analysis using the Connected Components (CC) Algorithm
+# MAGIC 
+# MAGIC CC analysis is used to determine the partition/segmentation of the attack surface represented in the graph that represents the blast radius if any node in each component is compromised.
+# MAGIC 
+# MAGIC <img src="https://github.com/lipyeowlim/public/raw/main/img/context-graph/cc_impact.png" width="600px">
+# MAGIC 
+# MAGIC Note that connected component algorithm applies to undirected graphs and finds the components/subgraphs that are connected internally but not connected externally to the subgraph. The analogue for directed graphs is the notion of strongly connected components (SCC) where the nodes within a SCC are reachable to each other.
 
 # COMMAND ----------
 
