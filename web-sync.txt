@@ -1,4 +1,4 @@
-The web-sync branch is used by the solution accelerator to publish the notebooks to a html-based website.
+The web-sync branch is used by the solution accelerator CICD to publish the notebooks to a html-based website.
 
 To regenerate the notebooks in the web-sync branch on your laptop:
 
@@ -6,3 +6,11 @@ To regenerate the notebooks in the web-sync branch on your laptop:
 2. checkout the web-sync branch
 3. run: python3 solacc.py --config config/cga-web-sync.json generate --prefix true
 4. push to origin if desired
+
+If there are code changes from main, you will need to rebase first:
+
+1. git checkout main
+2. git pull
+3. git checkout web-sync
+4. git rebase main
+5. resolve any conflicts following git messages
