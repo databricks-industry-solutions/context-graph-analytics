@@ -47,7 +47,7 @@ pipeline_json = {
     "libraries": [
         {
             "notebook": {
-                "path": "dlt_edges"
+                "path": "02_dlt_edges"
             }
         }
     ],
@@ -80,7 +80,7 @@ job_json = {
             {
                 "task_key": "Load_bronze_sample_data",
                 "notebook_task": {
-                    "notebook_path": "bronze_sample"
+                    "notebook_path": "01_bronze_sample"
                 },
                 "job_cluster_key": "solacc_cga_cluster",
                 "timeout_seconds": 0,
@@ -107,7 +107,7 @@ job_json = {
                     }
                 ],
                 "notebook_task": {
-                    "notebook_path": "analytics_01_impact"
+                    "notebook_path": "05_analytics_01_impact"
                 },
                 "job_cluster_key": "solacc_cga_cluster",
                 "timeout_seconds": 0,
@@ -121,7 +121,7 @@ job_json = {
                     }
                 ],
                 "notebook_task": {
-                    "notebook_path": "create_views"
+                    "notebook_path": "03_create_views"
                 },
                 "job_cluster_key": "solacc_cga_cluster",
                 "timeout_seconds": 0,
@@ -135,7 +135,7 @@ job_json = {
                     }
                 ],
                 "notebook_task": {
-                    "notebook_path": "extract_same_as_edges"
+                    "notebook_path": "04_extract_same_as_edges"
                 },
                 "job_cluster_key": "solacc_cga_cluster",
                 "timeout_seconds": 0,
