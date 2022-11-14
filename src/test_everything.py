@@ -23,7 +23,7 @@ def test_generate_smoke01():
 ... 04_extract_same_as_edges
 ... 05_analytics_01_impact
 ... 06_analytics_02_investigation
-... 07_RUNME
+... RUNME
 """
     assert result.output == expected_result_str
     assert results_matches_expected(basedir)

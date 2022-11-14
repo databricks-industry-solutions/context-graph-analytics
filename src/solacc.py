@@ -46,7 +46,7 @@ def generate(ctx, prefix):
         # add the top-level common vars into nb_spec for used in template rendering
         nb_spec.update(common)
         nb_spec["prefix"] = ""
-        if prefix:
+        if prefix and nb_spec["id"] != "RUNME":
             nb_spec["prefix"] = f"{i:02d}_"
         print(f"... {nb_spec['prefix']}{nb_spec['id']}")
         if nb_spec["id"] == "dlt_edges":
