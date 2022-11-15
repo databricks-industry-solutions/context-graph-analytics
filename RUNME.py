@@ -161,7 +161,6 @@ job_json = {
                         "PYSPARK_PYTHON": "/databricks/python3/bin/python3"
                     },
                     "enable_elastic_disk": False,
-                    "data_security_mode": "SINGLE_USER",
                     "runtime_engine": "STANDARD",
                     "num_workers": 4,
                     "custom_tags": {
