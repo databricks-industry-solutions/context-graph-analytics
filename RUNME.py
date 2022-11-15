@@ -10,12 +10,11 @@
 # COMMAND ----------
 
 # DBTITLE 1,Install required packages
-# MAGIC %pip install git+https://github.com/databricks-industry-solutions/notebook-solution-companion git+https://github.com/databricks-academy/dbacademy-rest git+https://github.com/databricks-academy/dbacademy-gems 
+# MAGIC %pip install git+https://github.com/databricks-academy/dbacademy@v1.0.13 git+https://github.com/databricks-industry-solutions/notebook-solution-companion@safe-print-html --quiet --disable-pip-version-check
 
 # COMMAND ----------
 
 from solacc.companion import NotebookSolutionCompanion
-
 
 # COMMAND ----------
 
@@ -68,7 +67,6 @@ print(f"pipeline id : {pipeline_id}")
 
 # DBTITLE 1,This is the Multi-Task Job specification for running the notebooks in this solution accelerator
 job_json = {
-        "name": "runme_solacc_cga_test_drive",
         "email_notifications": {},
         "timeout_seconds": 7200,
         "max_concurrent_runs": 1,
@@ -186,4 +184,5 @@ NotebookSolutionCompanion().deploy_compute(job_json, run_job=run_job)
 
 
 # COMMAND ----------
+
 
