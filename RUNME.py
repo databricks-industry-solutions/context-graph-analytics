@@ -144,14 +144,7 @@ job_json = {
             {
                 "job_cluster_key": "solacc_cga_cluster",
                 "new_cluster": {
-                    "spark_version": "11.0.x-cpu-ml-scala2.12",
-                    "aws_attributes": {
-                        "first_on_demand": 1,
-                        "availability": "SPOT_WITH_FALLBACK",
-                        "zone_id": "us-west-2a",
-                        "spot_bid_price_percent": 100,
-                        "ebs_volume_count": 0
-                    },
+                    "spark_version": "11.3.x-cpu-ml-scala2.12",
                     "node_type_id": {
                       "AWS": "i3.xlarge",
                       "MSA": "Standard_D3_v2",
