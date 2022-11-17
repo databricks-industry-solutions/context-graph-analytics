@@ -1,5 +1,10 @@
 # Databricks notebook source
 # MAGIC %md 
+# MAGIC You may find this notebook at https://github.com/databricks-industry-solutions/context-graph-analytics on the `web-sync` branch. 
+
+# COMMAND ----------
+
+# MAGIC %md 
 # MAGIC 
 # MAGIC # Extract `same_as` edges
 # MAGIC 
@@ -79,4 +84,5 @@
 # MAGIC SELECT * FROM solacc_cga.same_as
 
 # COMMAND ----------
+
 

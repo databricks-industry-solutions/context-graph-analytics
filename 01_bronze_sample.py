@@ -1,5 +1,10 @@
 # Databricks notebook source
 # MAGIC %md 
+# MAGIC You may find this notebook at https://github.com/databricks-industry-solutions/context-graph-analytics on the `web-sync` branch. 
+
+# COMMAND ----------
+
+# MAGIC %md 
 # MAGIC # Notebook for setting up sample bronze table
 # MAGIC 
 # MAGIC * limited to Azure AD and Okta data for now

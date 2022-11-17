@@ -1,4 +1,9 @@
 # Databricks notebook source
+# MAGIC %md 
+# MAGIC You may find this notebook at https://github.com/databricks-industry-solutions/context-graph-analytics on the `web-sync` branch. 
+
+# COMMAND ----------
+
 # This notebook is designed to be run as a task within a multi-task job workflow.
 # These time window input widgets enable the user to do back fill and re-processing within the multi-task job workflow
 #dbutils.widgets.removeAll()
@@ -140,4 +145,5 @@ cnt = poll_okta_logs(cfg)
 print(f"Total records polled = {cnt}")
 
 # COMMAND ----------
+
 

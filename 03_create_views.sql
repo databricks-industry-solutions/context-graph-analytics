@@ -1,4 +1,9 @@
 -- Databricks notebook source
+-- MAGIC %md 
+-- MAGIC You may find this notebook at https://github.com/databricks-industry-solutions/context-graph-analytics on the `web-sync` branch. 
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC # Auto-generated Notebook
 -- MAGIC 
@@ -37,4 +42,5 @@ SELECT 'aad' AS src, * FROM solacc_cga.aad_edges_silver
 ;
 
 -- COMMAND ----------
+
 

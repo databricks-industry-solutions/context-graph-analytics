@@ -1,4 +1,9 @@
 # Databricks notebook source
+# MAGIC %md 
+# MAGIC You may find this notebook at https://github.com/databricks-industry-solutions/context-graph-analytics on the `web-sync` branch. 
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC 
 # MAGIC # Context Graphs for Investigation Workflows
@@ -277,4 +282,5 @@ displayGraph(G, "Identity Context")
 display(g_df)
 
 # COMMAND ----------
+
 
