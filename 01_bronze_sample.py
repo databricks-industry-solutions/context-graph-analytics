@@ -1,5 +1,10 @@
 # Databricks notebook source
 # MAGIC %md 
+# MAGIC You may find this notebook at https://github.com/databricks-industry-solutions/context-graph-analytics on the `web-sync` branch. 
+
+# COMMAND ----------
+
+# MAGIC %md 
 # MAGIC # Notebook for setting up sample bronze table
 # MAGIC 
 # MAGIC * limited to Azure AD and Okta data for now
@@ -13,12 +18,12 @@ cfg={
                   {
                      "name": "aad_bronze",
                      "ts_path": "createdDateTime",
-                     "files": ["./data/aad-i-sample.json.gz", "./data/aad-ni-sample.json.gz"]
+                     "files": ["./deploy/data/aad-i-sample.json.gz", "./deploy/data/aad-ni-sample.json.gz"]
                   }, 
                   {
                     "name": "okta_bronze",
                     "ts_path": "published",
-                    "files": ["./data/okta-sample.json.gz"]
+                    "files": ["./deploy/data/okta-sample.json.gz"]
                   }
                ]
 }
@@ -93,4 +98,5 @@ for t in getParam("table_list"):
 # MAGIC select * from solacc_cga.okta_bronze
 
 # COMMAND ----------
+
 

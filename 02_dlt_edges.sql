@@ -1,10 +1,16 @@
 -- Databricks notebook source
+-- MAGIC %md 
+-- MAGIC You may find this notebook at https://github.com/databricks-industry-solutions/context-graph-analytics on the `web-sync` branch. 
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC # Auto-generated Notebook
 -- MAGIC 
 -- MAGIC pipeline to build silver & bronze edge tables
 
 -- COMMAND ----------
+
 CREATE STREAMING LIVE TABLE okta_edges_silver
 PARTITIONED BY (event_ts)
 TBLPROPERTIES("quality"="silver")
@@ -33,6 +39,7 @@ FROM STREAM(solacc_cga.okta_bronze)
 WHERE raw:eventType IN ('user.authentication.auth_via_mfa', 'user.authentication.sso', 'user.authentication.auth_via_social');
 
 -- COMMAND ----------
+
 CREATE STREAMING LIVE TABLE okta_edges_gold_DAY
 PARTITIONED BY (time_bkt)
 TBLPROPERTIES("quality"="gold")
@@ -45,7 +52,9 @@ FROM STREAM(LIVE.okta_edges_silver)
 WHERE obj_id IS NOT NULL
 group by time_bkt, sub_type, sub_id, sub_name, pred, pred_status, obj_type, obj_id, obj_name
 ;
+
 -- COMMAND ----------
+
 CREATE STREAMING LIVE TABLE aad_edges_silver
 PARTITIONED BY (event_ts)
 TBLPROPERTIES("quality"="silver")
@@ -64,6 +73,7 @@ FROM STREAM(solacc_cga.aad_bronze);
 
 
 -- COMMAND ----------
+
 CREATE STREAMING LIVE TABLE aad_edges_gold_DAY
 PARTITIONED BY (time_bkt)
 TBLPROPERTIES("quality"="gold")
@@ -79,5 +89,7 @@ FROM STREAM(LIVE.aad_edges_silver)
 WHERE obj_id IS NOT NULL
 GROUP BY time_bkt, sub_type, sub_id, sub_name, pred, pred_status, obj_type, obj_id, obj_name
 ;
+
 -- COMMAND ----------
+
 
