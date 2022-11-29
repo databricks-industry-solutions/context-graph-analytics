@@ -46,7 +46,7 @@ pipeline_json = {
     "libraries": [
         {
             "notebook": {
-                "path": "02_dlt_edges"
+                "path": "03_dlt_edges"
             }
         }
     ],
@@ -76,9 +76,23 @@ job_json = {
         },
         "tasks": [
             {
-                "task_key": "Load_bronze_sample_data",
+                "task_key": "Intro",
                 "notebook_task": {
-                    "notebook_path": "01_bronze_sample"
+                    "notebook_path": "00_intro"
+                },
+                "job_cluster_key": "solacc_cga_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Load_bronze_sample_data",
+                "depends_on": [
+                    {
+                        "task_key": "Intro"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "02_bronze_sample"
                 },
                 "job_cluster_key": "solacc_cga_cluster",
                 "timeout_seconds": 0,
@@ -105,7 +119,7 @@ job_json = {
                     }
                 ],
                 "notebook_task": {
-                    "notebook_path": "05_analytics_01_impact"
+                    "notebook_path": "06_analytics_01_impact"
                 },
                 "job_cluster_key": "solacc_cga_cluster",
                 "timeout_seconds": 0,
@@ -119,7 +133,7 @@ job_json = {
                     }
                 ],
                 "notebook_task": {
-                    "notebook_path": "03_create_views"
+                    "notebook_path": "04_create_views"
                 },
                 "job_cluster_key": "solacc_cga_cluster",
                 "timeout_seconds": 0,
@@ -133,7 +147,7 @@ job_json = {
                     }
                 ],
                 "notebook_task": {
-                    "notebook_path": "04_extract_same_as_edges"
+                    "notebook_path": "05_extract_same_as_edges"
                 },
                 "job_cluster_key": "solacc_cga_cluster",
                 "timeout_seconds": 0,
