@@ -48,7 +48,12 @@
       "type": "py",
       "id": "RUNME",
       "desc": "Convenience notebook for running the entire solution accelerator"
-    }  
+    }, 
+    {
+      "type": "py",
+      "id": "tutorial_graphframes",
+      "desc": "Tutorial for graphframes BFS & CC with schema on read"
+    }
   ] 
 }
 
