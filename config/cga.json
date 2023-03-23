@@ -53,6 +53,11 @@
       "type": "py",
       "id": "tutorial_graphframes",
       "desc": "Tutorial for graphframes BFS & CC with schema on read"
+    }, 
+    {
+      "type": "py",
+      "id": "tutorial_graph_mapping",
+      "desc": "Tutorial for mapping JSON to graph edges"
     }
   ] 
 }
