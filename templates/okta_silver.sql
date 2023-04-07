@@ -1,9 +1,10 @@
 CREATE STREAMING LIVE TABLE okta_edges_silver
-PARTITIONED BY (event_date, sub_id)
+PARTITIONED BY (event_date, pt)
 TBLPROPERTIES("quality"="silver")
 AS
 SELECT event_ts,
   event_date,
+  left(sub_id, 1) as pt,
   rid as src_rid,
   'user-okta' as sub_type,
   raw:actor.id as sub_id,
