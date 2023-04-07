@@ -1,9 +1,10 @@
 CREATE STREAMING LIVE TABLE aad_edges_silver
-PARTITIONED BY (event_date, sub_id)
+PARTITIONED BY (event_date, pt)
 TBLPROPERTIES("quality"="silver")
 AS
 SELECT event_ts,
   event_date,
+  left(raw:userId, 1) as pt,
   rid AS src_rid,
   'user-aad' AS sub_type,
   raw:userId AS sub_id,
