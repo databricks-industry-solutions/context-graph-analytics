@@ -6,10 +6,11 @@
 
 -- COMMAND ----------
 CREATE STREAMING LIVE TABLE okta_edges_silver
-PARTITIONED BY (event_ts)
+PARTITIONED BY (event_date, sub_id)
 TBLPROPERTIES("quality"="silver")
 AS
 SELECT event_ts,
+  event_date,
   rid as src_rid,
   'user-okta' as sub_type,
   raw:actor.id as sub_id,
@@ -34,7 +35,7 @@ WHERE raw:eventType IN ('user.authentication.auth_via_mfa', 'user.authentication
 
 -- COMMAND ----------
 CREATE STREAMING LIVE TABLE okta_edges_gold_DAY
-PARTITIONED BY (time_bkt)
+PARTITIONED BY (time_bkt, sub_id)
 TBLPROPERTIES("quality"="gold")
 AS
 SELECT date_trunc('DAY', event_ts) as time_bkt, sub_type, sub_id, sub_name, pred, pred_status, obj_type, obj_id, obj_name,
@@ -47,10 +48,11 @@ group by time_bkt, sub_type, sub_id, sub_name, pred, pred_status, obj_type, obj_
 ;
 -- COMMAND ----------
 CREATE STREAMING LIVE TABLE aad_edges_silver
-PARTITIONED BY (event_ts)
+PARTITIONED BY (event_date, sub_id)
 TBLPROPERTIES("quality"="silver")
 AS
 SELECT event_ts,
+  event_date,
   rid AS src_rid,
   'user-aad' AS sub_type,
   raw:userId AS sub_id,
@@ -65,7 +67,7 @@ FROM STREAM(solacc_cga.aad_bronze);
 
 -- COMMAND ----------
 CREATE STREAMING LIVE TABLE aad_edges_gold_DAY
-PARTITIONED BY (time_bkt)
+PARTITIONED BY (time_bkt, sub_id)
 TBLPROPERTIES("quality"="gold")
 AS
 SELECT date_trunc('DAY', event_ts) as time_bkt,
