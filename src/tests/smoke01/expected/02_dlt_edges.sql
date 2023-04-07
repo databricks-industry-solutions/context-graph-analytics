@@ -11,7 +11,7 @@ TBLPROPERTIES("quality"="silver")
 AS
 SELECT event_ts,
   event_date,
-  left(sub_id, 1) as pt,
+  left(raw:actor.id, 1) as pt,
   rid as src_rid,
   'user-okta' as sub_type,
   raw:actor.id as sub_id,
