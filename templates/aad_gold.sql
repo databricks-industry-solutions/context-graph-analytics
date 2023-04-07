@@ -1,5 +1,5 @@
 CREATE STREAMING LIVE TABLE aad_edges_gold_{{time_granularity}}
-PARTITIONED BY (time_bkt)
+PARTITIONED BY (time_bkt, sub_id)
 TBLPROPERTIES("quality"="gold")
 AS
 SELECT date_trunc('{{time_granularity}}', event_ts) as time_bkt,
