@@ -5,11 +5,11 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Context Graphs for Investigation Workflows
-# MAGIC 
+# MAGIC
 # MAGIC ## Use cases
-# MAGIC 
+# MAGIC
 # MAGIC * An enterprise might have multiple IAM/SSO, AD domains, authn systems including local unix authn. An analyst investigating an incident will need to manually resolve these identities. Context graphs provide `same_as` edges that capture the results from any entity resolution package and these edges can be traversed like any other relationships.
 # MAGIC * Impact analysis (blast radius)
 # MAGIC   * Given a compromised user account, what apps, ip addresses etc. has this account touched across the enterprise?
@@ -221,19 +221,19 @@ g_df = None
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Demo Setup
-# MAGIC 
+# MAGIC
 # MAGIC You are an incident responder or an analyst investigating an advanced persistent threat. The following command simulates an investigation process that builds an investigation graph iteratively through a series of edge queries. You will build the investigation graph by changing the search parameter and executing the following command. To reset the investigation graph, you will need to execute the command prior to this cell.
-# MAGIC 
+# MAGIC
 # MAGIC The output of the following command consists of three components:
-# MAGIC 
+# MAGIC
 # MAGIC 1. The table of edges from the most recent search query
 # MAGIC 2. The graph visualization
 # MAGIC 3. The cumulative table of edges from the search history since the last reset.
-# MAGIC 
+# MAGIC
 # MAGIC ## Demo Story
-# MAGIC 
+# MAGIC
 # MAGIC * Suppose `maria.cole@chang-fisher.com` has been compromised. Let's pull back all the edges incident on that person.
 # MAGIC     * You can hover over the edges or nodes in the graph visualization to see details.
 # MAGIC     * It turns out that maria has an old account from a company Summers.info that the Chang-Fisher company has acquired.
@@ -280,7 +280,3 @@ displayGraph(G, "Identity Context")
 
 # display the edges of the entire search history since last reset
 display(g_df)
-
-# COMMAND ----------
-
-

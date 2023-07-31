@@ -6,7 +6,7 @@
 
 -- MAGIC %md
 -- MAGIC # Auto-generated Notebook
--- MAGIC 
+-- MAGIC
 -- MAGIC pipeline to build silver & bronze edge tables
 
 -- COMMAND ----------
@@ -89,7 +89,3 @@ FROM STREAM(LIVE.aad_edges_silver)
 WHERE obj_id IS NOT NULL
 GROUP BY time_bkt, sub_type, sub_id, sub_name, pred, pred_status, obj_type, obj_id, obj_name
 ;
-
--- COMMAND ----------
-
-

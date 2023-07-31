@@ -5,18 +5,18 @@
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC 
+# MAGIC
 # MAGIC # Extract `same_as` edges
-# MAGIC 
+# MAGIC
 # MAGIC * For now, simulate entity resolution using hard coded same_as edges
 # MAGIC * TODO: use zingg to create the same_as edges
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC DROP TABLE IF EXISTS solacc_cga.same_as;
-# MAGIC 
+# MAGIC
 # MAGIC CREATE TABLE IF NOT EXISTS solacc_cga.same_as (
 # MAGIC   src string,
 # MAGIC   time_bkt timestamp,
@@ -35,9 +35,9 @@
 
 # DBTITLE 1,Add simple resolutions where the entities share the same email address
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC TRUNCATE TABLE solacc_cga.same_as;
-# MAGIC 
+# MAGIC
 # MAGIC INSERT OVERWRITE solacc_cga.same_as 
 # MAGIC (
 # MAGIC   WITH entity_mapping AS
@@ -56,8 +56,8 @@
 
 # DBTITLE 1,Add a non-trivial identity resolutions
 # MAGIC %sql
-# MAGIC 
-# MAGIC 
+# MAGIC
+# MAGIC
 # MAGIC INSERT INTO solacc_cga.same_as 
 # MAGIC (
 # MAGIC SELECT DISTINCT 'aad' AS src, NULL AS time_bkt, src.sub_type, src.sub_id, src.sub_name, 'same_as' AS pred, NULL AS pred_status, tgt.sub_type, tgt.sub_id, tgt.sub_name
@@ -80,9 +80,5 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC SELECT * FROM solacc_cga.same_as
-
-# COMMAND ----------
-
-
