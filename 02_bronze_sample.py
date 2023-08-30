@@ -6,10 +6,12 @@
 
 # MAGIC %md 
 # MAGIC # Notebook for setting up sample bronze table
-# MAGIC 
+# MAGIC
 # MAGIC * limited to Azure AD and Okta data for now
 
 # COMMAND ----------
+
+data_source_path = "https://db-gtm-industry-solutions.s3.amazonaws.com/data/sec/context-graph-analytics/"
 
 cfg={
   "storage_path": "/tmp/solacc_cga",
@@ -18,12 +20,12 @@ cfg={
                   {
                      "name": "aad_bronze",
                      "ts_path": "createdDateTime",
-                     "files": ["./deploy/data/aad-i-sample.json.gz", "./deploy/data/aad-ni-sample.json.gz"]
+                     "files": [f"{data_source_path}aad-i-sample.json.gz", f"{data_source_path}aad-ni-sample.json.gz"]
                   }, 
                   {
                     "name": "okta_bronze",
                     "ts_path": "published",
-                    "files": ["./deploy/data/okta-sample.json.gz"]
+                    "files": [f"{data_source_path}okta-sample.json.gz"]
                   }
                ]
 }
@@ -64,15 +66,16 @@ import json
 import gzip
 import datetime
 import dateutil
+import requests
 from pyspark.sql import Row
+
+def get_gzipped_json(url):
+    return json.loads(gzip.decompress(requests.get(url).content))
 
 def load_jsonfiles(full_table_name, jsonfiles, ts_path):
   rec_cnt = 0
   for jsonfile in jsonfiles:
-    with gzip.open(jsonfile, "r") as fp:
-      data_str = fp.read()
-      data = json.loads(data_str)
-  
+    data = get_gzipped_json(jsonfile)
     rec_cnt += len(data)
     ingest_ts = datetime.datetime.now(datetime.timezone.utc)
 
@@ -94,9 +97,5 @@ for t in getParam("table_list"):
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC select * from solacc_cga.okta_bronze
-
-# COMMAND ----------
-
-

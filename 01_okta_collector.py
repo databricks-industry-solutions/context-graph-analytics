@@ -143,7 +143,3 @@ def poll_okta_logs(cfg, debug=False):
   
 cnt = poll_okta_logs(cfg)
 print(f"Total records polled = {cnt}")
-
-# COMMAND ----------
-
-
