@@ -6,7 +6,7 @@
 
 # Context Graph Analytics
 ___
-Contact Author: <lipyeow@databricks.com>
+Contact Author: <cybersecurity@databricks.com>
 
 ## Use Cases
 
